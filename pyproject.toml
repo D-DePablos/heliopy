@@ -40,5 +40,5 @@
       showcontent = true
 
 [build-system]
-  requires = ["setuptools", "wheel", "versioneer"]
+  requires = ["setuptools", "wheel"]
   build-backend = 'setuptools.build_meta'
