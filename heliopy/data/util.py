@@ -262,7 +262,7 @@ def process(dirs, fnames, extension, local_base_dir, remote_base_url,
     ----------
     dirs : list
         A list of directories relative to *local_base_dir*.
-    fnames : list or str or regex
+    fnames : list, str
         A list of filenames **without** their extension. These are the
         filenames that will be downloaded from the remote source. Must be the
         same length as *dirs*. Each filename is saved in it's respective entry
@@ -307,11 +307,11 @@ def process(dirs, fnames, extension, local_base_dir, remote_base_url,
         Start of requested interval.
     endtime : ~datetime.datetime
         End of requested interval.
-    try_download : bool, optional
+    try_download : bool
         If ``True``, try to download data. If ``False`` don't.
         Default is ``True``.
 
-    units : ~collections.OrderedDict, optional
+    units : ~collections.OrderedDict
         Manually defined units to be attached to the data that will be
         returned.
 
@@ -319,23 +319,23 @@ def process(dirs, fnames, extension, local_base_dir, remote_base_url,
         objects. If units are present, then a TimeSeries object is returned,
         else a Pandas DataFrame.
 
-    processing_kwargs : dict, optional
+    processing_kwargs : dict
         Extra keyword arguments to be passed to the processing funciton.
 
-    download_info : list, optional
+    download_info : list
         A list with the same length as *fnames*, which contains extra info
         that is handed to *download_func* for each file individually.
-    remote_fnames : list of str, optional
+    remote_fnames : list of str
         If the remote filenames are different from the desired downloaded
         filenames, this should be a list of length ``len(fnames)`` with the
         files to be downloaded. The ordering must be the same as *fnames*.
-    warn_missing_units : bool, optional
+    warn_missing_units : bool
         If ``True``, warnings will be shown for each variable that does not
         have associated units.
 
     Returns
     -------
-    :class:`~pandas.DataFrame` or :class:`~sunpy.timeseries.TimeSeries`
+    :class:`~pandas.DataFrame` or :class:`~sunpy.timeseries.GenericTimeSeries`
         Requested data.
     """
     local_base_dir = path.Path(local_base_dir)
@@ -484,7 +484,7 @@ def units_attach(data, units, warn_missing_units=True):
 
     Returns
     -------
-    out : :class:`~sunpy.timeseries.TimeSeries`
+    out : :class:`~sunpy.timeseries.GenericTimeSeries`
         DataFrame converted into TimeSeries with units attached.
     """
     missing_msg = ('If you are trying to auomatically download data '
@@ -510,9 +510,9 @@ def cdf_units(cdf_, manual_units=None, length=None):
 
     Parameters
     ----------
-    cdf_ : cdf
+    cdf_ : cdflib.CDF
         Opened cdf file
-    manual_units : ~collections.OrderedDict, optional
+    manual_units : ~collections.OrderedDict
         Manually defined units to be attached to the data that will be
         returned.
 
@@ -600,9 +600,9 @@ def timefilter(data, starttime, endtime):
     data : :class:`pandas.DataFrame` or list
         Input data. If a list, ``pd.concat(data)`` will be run to put it in
         a DataFrame.
-    starttime : datetime
+    starttime : datetime.datetime
         Start of interval.
-    endtime : datetime
+    endtime : datetime.datetime
         End of interval.
 
     Returns
@@ -654,22 +654,22 @@ def pitchdist_cdf2df(cdf, distkeys, energykey, timekey, anglelabels):
 
     Parameters
     ----------
-    cdf : cdf
+    cdf : cdflib.CDF
         Opened cdf file.
     distkeys : list
         A list of the cdf keys for a given energies. Each array accessed by
-        distkeys is shape `(n, l)`, and there must be `m` distkeys.
-    energykey : string
+        distkeys is shape ``(n, l)``, and there must be `m` distkeys.
+    energykey : str
         The cdf key for the energy values. The array accessed by energykey
-        must have shape `(m)` or `(a, m)` where `a` can be anything. If it
-        has shape `(a, m)`, we assume energies measured don't change, and
+        must have shape ``(m)`` or ``(a, m)`` where ``a`` can be anything. If
+        it has shape ``(a, m)``, we assume energies measured don't change, and
         take the first row as the energies for all times.
-    timekey : string
+    timekey : str
         The cdf key for the timestamps. The array access by timekey must
-        have shape `(n)`
+        have shape ``(n)``
     anglelabels : list
         A list of the labels to give each anglular bin (eg. [0, 10, 20] in
-        degrees). Must be of length `l`.
+        degrees). Must be of length ``l``.
 
     Returns
     -------
@@ -726,17 +726,17 @@ def cdf2df(cdf, index_key, dtimeindex=True, badvalues=None,
     ----------
     cdf : cdf
         Opened CDF file.
-    index_key : string
+    index_key : str
         The CDF key to use as the index in the output DataFrame.
-    dtimeindex : bool, optional
+    dtimeindex : bool
         If ``True``, the DataFrame index is parsed as a datetime.
         Default is ``True``.
-    badvalues : dict, list, optional
+    badvalues : dict, list
         Deprecated.
-    ignore : list, optional
+    ignore : list
         In case a CDF file has columns that are unused / not required, then
         the column names can be passed as a list into the function.
-    include : str, list, optional
+    include : str, list
         If only specific columns of a CDF file are desired, then the column
         names can be passed as a list into the function. Should not be used
         with ``ignore``.
@@ -876,11 +876,11 @@ def load(filename, local_dir, remote_url,
 
     Parameters
     ----------
-    filename : string
+    filename : str
         Name of file
-    local_dir : string
+    local_dir : str
         Local location of file
-    remote_url : string
+    remote_url : str
         Remote location of file
     try_download : bool
         If a file isn't available locally, try to downloaded it. Default is
@@ -1058,7 +1058,7 @@ def _checkdir(directory):
 
     Parameters
     ----------
-    directory : string
+    directory : str
         Directory to check.
 
     Returns
@@ -1082,9 +1082,9 @@ def _daysplitinterval(starttime, endtime):
 
     Parameters
     ----------
-    starttime : datetime
+    starttime : datetime.datetime
         Start date/time of interval
-    endtime : datetime
+    endtime : datetime.datetime
         End date/time of interval
 
     Returns
@@ -1202,7 +1202,7 @@ def dtime2doy(dt):
 
     Parameters
     ----------
-    dt : datetime
+    dt : datetime.datetime
 
     Returns
     -------

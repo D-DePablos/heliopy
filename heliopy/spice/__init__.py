@@ -188,7 +188,7 @@ class Trajectory:
             The coordinate system to return the positions in. See
             https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/req/frames.html
             for a list of frames.
-        abcorr : str, optional
+        abcorr : str
             By default no aberration correciton is performed.
             See the documentaiton at
             https://naif.jpl.nasa.gov/pub/naif/toolkit_docs/C/cspice/spkezr_c.html
@@ -367,7 +367,8 @@ The following frames are supported:
 for spice_frame in spice_astropy_frame_mapping:
     _astropy_frame = spice_astropy_frame_mapping[spice_frame]
     Trajectory.coords.__doc__ += \
-        f'\n   {spice_frame}, :class:`{_astropy_frame.__name__}`'
+        (f'\n   {spice_frame}, '
+         f'`{_astropy_frame.__module__}.{_astropy_frame.__name__}`')
 
 
 # This has to be at the end of the file

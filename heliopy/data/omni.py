@@ -96,14 +96,14 @@ def low(starttime, endtime):
 
     Parameters
     ----------
-    starttime : datetime
+    starttime : datetime.datetime
         Interval start time.
-    endtime : datetime
+    endtime : datetime.datetime
         Interval end time.
 
     Returns
     -------
-        data : :class:`~sunpy.timeseries.TimeSeries`
+        data : :class:`~sunpy.timeseries.GenericTimeSeries`
     """
     sfu = u.def_unit('sfu', 10**-22 * u.m**-2 * u.Hz**-1)
     units = OrderedDict([('Bartels Rotation Number', u.dimensionless_unscaled),
